@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<content xmlns:j="http://www.jahia.org/jahia/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0">
+    <modules jcr:primaryType="jnt:modules">
+        <training j:dependencies="default"
+                j:modulePriority="0"
+                j:moduleType="module"
+                j:title="Training"
+                jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                jcr:primaryType="jnt:module">
+                <sources jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                  jcr:primaryType="jnt:moduleVersionFolder"
+                  j:staticMountPointProviderKey="module-training-1.0-SNAPSHOT">
+                    <src jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                 jcr:primaryType="jnt:folder">
+                        <main jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                     jcr:primaryType="jnt:folder">
+                            <resources jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                             jcr:primaryType="jnt:folder">
+                                <jnt_judgeList jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                                    jcr:primaryType="jnt:nodeTypeFolder">
+                                    <html jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                              jcr:primaryType="jnt:templateTypeFolder">
+                                        <judgeList.jsp jcr:primaryType="jnt:viewFile"/>
+                                    </html>
+                                </jnt_judgeList>
+                                <jnt_judgeView jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                                    jcr:primaryType="jnt:nodeTypeFolder">
+                                    <html jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                              jcr:primaryType="jnt:templateTypeFolder">
+                                        <judgeView.jsp jcr:primaryType="jnt:viewFile"/>
+                                    </html>
+                                </jnt_judgeView>
+                                <jnt_judgeProfile jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                                       jcr:primaryType="jnt:nodeTypeFolder">
+                                    <html jcr:mixinTypes="jmix:hasExternalProviderExtension"
+                              jcr:primaryType="jnt:templateTypeFolder">
+                                        <judgeProfile.JudgeProfile.jsp jcr:primaryType="jnt:viewFile"/>
+                                    </html>
+                                </jnt_judgeProfile>
+                            </resources>
+                        </main>
+                    </src>
+                </sources>
+                
+                <portlets jcr:primaryType="jnt:portletFolder"/>
+                <files jcr:primaryType="jnt:folder"/>
+                <contents jcr:primaryType="jnt:contentFolder"/>
+                <templates j:rootTemplatePath="/base" jcr:primaryType="jnt:templatesFolder">
+                    <files jcr:primaryType="jnt:folder">
+                        <schweizerisches-bundesgericht-logo.gif j:height="189"
+                                                       j:width="300"
+                                                       jcr:mixinTypes="jmix:image"
+                                                       jcr:primaryType="jnt:file">
+                            <jcr:content jcr:mimeType="image/gif" jcr:primaryType="jnt:resource"/>
+                            <thumbnail jcr:mimeType="image/gif" jcr:primaryType="jnt:resource"/>
+                            <thumbnail2 jcr:mimeType="image/gif" jcr:primaryType="jnt:resource"/>
+                        </schweizerisches-bundesgericht-logo.gif>
+                    </files>
+                    <contents jcr:primaryType="jnt:contentFolder"/>
+                    <judge j:hiddenTemplate="false" jcr:primaryType="jnt:template">
+                        <j:translation_en jcr:language="en"
+                                 jcr:mixinTypes="mix:title"
+                                 jcr:primaryType="jnt:translation"
+                                 jcr:title="judge"/>
+                    </judge>
+                </templates>
+                
+            </training>
+    </modules>
+</content>

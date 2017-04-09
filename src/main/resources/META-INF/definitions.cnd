@@ -1,0 +1,27 @@
+<jcr = 'http://www.jcp.org/jcr/1.0'>
+<jmix = 'http://www.jahia.org/jahia/mix/1.0'>
+<jnt = 'http://www.jahia.org/jahia/nt/1.0'>
+<mix = 'http://www.jcp.org/jcr/mix/1.0'>
+
+[jnt:judgeProfile] > jnt:content, jmix:structuredContent, mix:title
+ - jcr:title (string, richtext) mandatory internationalized scoreboost=2.0
+ - body (string, richtext) mandatory internationalized
+ - image (weakreference, picker[type='image']) mandatory
+
+[jcr:judgeInfo] > jnt:content, jmix:structuredContent
+ - judgeLastName (string) mandatory
+ - judgeFirstName (string) mandatory
+ - yearStarted (long) mandatory
+ - yearLeft (long) mandatory
+ - court (string) mandatory
+ - county (string) mandatory
+ - party (string) mandatory
+ - birth (long) mandatory
+ - death (long)
+ - biography (string, richtext) mandatory internationalized
+ - image (weakreference, picker[type='image']) mandatory
+
+[jnt:judgeView] > jnt:content, jmix:structuredContent
+
+[jnt:judgeList] > jnt:content, jmix:structuredContent
+
