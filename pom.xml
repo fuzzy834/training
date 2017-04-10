@@ -61,6 +61,21 @@
     <packaging>bundle</packaging>
     <description>This is the custom module (Training) for running on a Digital Experience Manager server.</description>
 
+    <profiles>
+        <profile>
+            <id>training</id>
+            <properties>
+                <jahia.deploy.targetServerType>tomcat</jahia.deploy.targetServerType>
+                <jahia.deploy.targetServerVersion>7</jahia.deploy.targetServerVersion>
+                <jahia.deploy.targetServerDirectory>/home/smile/DigitalExperienceManager-EnterpriseDistribution-7.1.2.0/tomcat</jahia.deploy.targetServerDirectory>
+                <jahia.deploy.war.dirName>ROOT</jahia.deploy.war.dirName>
+                <jahia.deploy.war.contextPath>/</jahia.deploy.war.contextPath>
+                <jahia.deploy.war.servletPath>/cms</jahia.deploy.war.servletPath>
+                <jahia.debug.address>socket:hostname=localhost,port=8000</jahia.debug.address>
+            </properties>
+        </profile>
+    </profiles>
+
     <scm>
         <connection>scm:dummy:uri</connection>
         <developerConnection>scm:dummy:uri</developerConnection>
