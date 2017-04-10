@@ -8,7 +8,10 @@ import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.slf4j.Logger;
 
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -40,16 +43,26 @@ public class SwitchNamesAction extends Action {
             @Override
             public Object doInJCR(JCRSessionWrapper session) throws RepositoryException {
 
-                JCRNodeWrapper node = session.getNodeByUUID(resource.getNode().getIdentifier());
+                QueryManagerWrapper queryManager = session.getWorkspace().getQueryManager();
+                JCRNodeIteratorWrapper nodes = queryManager
+                        .createQuery("SELECT*FROM[jcr:judgeInfo]", Query.JCR_JQOM)
+                        .execute()
+                        .getNodes();
 
-                if(node.isNodeType(CONTENT_FOLDER_TYPE)) {
-                    JCRNodeIteratorWrapper nodes = node.getNodes();
+                JCRNodeWrapper qualifyingNode = session.getNodeByUUID(resource.getNode().getIdentifier());
 
+                if(qualifyingNode.isNodeType(CONTENT_FOLDER_TYPE)) {
                     for (JCRNodeWrapper n : nodes) {
                         switchActionSequence(n, FIRST_NAME_PROPERTY, LAST_NAME_PROPERTY);
                     }
 
                 }else {
+                    JCRNodeWrapper node = null;
+                    for (JCRNodeWrapper n : nodes) {
+                        if (qualifyingNode.getIdentifier().equals(n.getIdentifier())){
+                            node = n;
+                        }
+                    }
                     switchActionSequence(node, FIRST_NAME_PROPERTY, LAST_NAME_PROPERTY);
                 }
 
@@ -86,8 +99,8 @@ public class SwitchNamesAction extends Action {
     private void switchActionSequence (JCRNodeWrapper node, String propertyName1, String propertyName2){
         try {
             switchNameProperties(node, propertyName1, propertyName2);
-            publishChangesToLiveWorkspace(node);
             node.getSession().save();
+            publishChangesToLiveWorkspace(node);
         }catch (RepositoryException e){
             LOGGER.error(e.getMessage());
         }
