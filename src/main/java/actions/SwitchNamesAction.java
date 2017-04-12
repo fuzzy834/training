@@ -3,15 +3,15 @@ package actions;
 import org.jahia.bin.Action;
 import org.jahia.bin.ActionResult;
 import org.jahia.services.content.*;
+import org.jahia.services.content.decorator.JCRUserNode;
 import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
+import org.jahia.services.usermanager.JahiaUserManagerService;
 import org.slf4j.Logger;
 
-import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.query.Query;
-import javax.jcr.query.QueryManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,13 +65,25 @@ public class SwitchNamesAction extends Action {
                     }
                     switchActionSequence(node, FIRST_NAME_PROPERTY, LAST_NAME_PROPERTY);
                 }
-
                 return new ActionResult(HttpServletResponse.SC_OK);
             }
         });
     }
 
     private void publishChangesToLiveWorkspace(JCRNodeWrapper node){
+        try {
+            JCRPublicationService.getInstance().publishByMainId(node.getIdentifier(),
+                    "default",
+                    "live",
+                    null,
+                    true,
+                    Collections.singletonList(""));
+        }catch (RepositoryException e){
+            LOGGER.error(e.getMessage());
+        }
+    }
+
+    private void publishUserChangesToLiveWorkspace(JCRUserNode node){
         try {
             JCRPublicationService.getInstance().publishByMainId(node.getIdentifier(),
                     "default",

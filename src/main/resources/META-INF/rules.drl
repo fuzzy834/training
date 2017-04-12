@@ -1,0 +1,36 @@
+package org.jahia.modules.training.rules
+
+
+// list any import classes here.
+import org.jahia.services.content.rules.*
+import org.jahia.services.content.JCRContentUtils
+import org.jahia.services.usermanager.JahiaUserManagerService
+import rules.JournalistToUser
+import org.slf4j.Logger
+
+expander rules.dsl
+
+// declare any global variables here
+global User user
+global Service service
+global Logger logger
+global JCRContentUtils jcrUtils
+global JournalistToUser journalistToUser
+
+
+
+rule "Create User"
+    when
+        A new node is created
+            - it has the type jnt:journalist
+    then
+        Create journalist user with data from node
+end
+
+rule "Publish Modified Node"
+    when
+        A node is published
+            - it has the type jnt:journalist
+    then
+        Update user journalist from node
+end

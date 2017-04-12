@@ -25,3 +25,21 @@
 
 [jnt:judgeList] > jnt:content, jmix:structuredContent
 
+[jnt:journalist] > jnt:content, jmix:structuredContent
+ - title (string, choicelist) = 'madame' mandatory < 'madame', 'monsieur'
+ - academicTitle (string)
+ - name (string) mandatory
+ - surname (string) mandatory
+ - address (string) mandatory
+ - npa (long) mandatory
+ - place (string) mandatory
+ - phone (string)
+ - cellphone (string)
+ - email (string) mandatory < '^$|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}'
+ - password (string) mandatory
+ - userRef (string) protected hidden
+ - magazine (string) itemtype = metadata
+ - languages (string, choicelist) = 'German' mandatory multiple < 'German', 'French', 'Italian'
+ - accredetationType (string, choicelist) = 'Principal' mandatory < 'Principal', 'Accreditated', 'Public'
+ - accreditatedFor (string)
+
