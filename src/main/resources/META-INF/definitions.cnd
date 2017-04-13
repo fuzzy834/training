@@ -2,6 +2,8 @@
 <jmix = 'http://www.jahia.org/jahia/mix/1.0'>
 <jnt = 'http://www.jahia.org/jahia/nt/1.0'>
 <mix = 'http://www.jcp.org/jcr/mix/1.0'>
+<trmx = 'http://jahia-training.lxc/vt/nx'>
+<trnt = 'http://jahia-training.lxc/vt/nt'>
 
 [jnt:judgeProfile] > jnt:content, jmix:structuredContent, mix:title
  - jcr:title (string, richtext) mandatory internationalized scoreboost=2.0
@@ -25,7 +27,7 @@
 
 [jnt:judgeList] > jnt:content, jmix:structuredContent
 
-[jnt:journalist] > jnt:content, jmix:structuredContent
+[trnt:journalist] > jnt:content, trmx:training
  - title (string, choicelist) = 'madame' mandatory < 'madame', 'monsieur'
  - academicTitle (string)
  - name (string) mandatory
@@ -42,4 +44,6 @@
  - languages (string, choicelist) = 'German' mandatory multiple < 'German', 'French', 'Italian'
  - accredetationType (string, choicelist) = 'Principal' mandatory < 'Principal', 'Accreditated', 'Public'
  - accreditatedFor (string)
+
+[trmx:training] > jmix:droppableContent mixin
 
