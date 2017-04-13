@@ -97,8 +97,7 @@ public class JournalistToUser {
         String username = node.getPropertyAsString(NODENAME_PROPERTY);
         String password = node.getPropertyAsString(PASSWORD_PROPERTY);
         Properties properties = getRequiredProperties(node);
-        JCRUserNode user = userService.createUser(username, password, properties, session);
-        return user;
+        return userService.createUser(username, password, properties, session);
     }
 
     private String getStringFromArray(Value[] values) throws RepositoryException {

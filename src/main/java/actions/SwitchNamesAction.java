@@ -3,11 +3,9 @@ package actions;
 import org.jahia.bin.Action;
 import org.jahia.bin.ActionResult;
 import org.jahia.services.content.*;
-import org.jahia.services.content.decorator.JCRUserNode;
 import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
-import org.jahia.services.usermanager.JahiaUserManagerService;
 import org.slf4j.Logger;
 
 import javax.jcr.RepositoryException;
@@ -71,19 +69,6 @@ public class SwitchNamesAction extends Action {
     }
 
     private void publishChangesToLiveWorkspace(JCRNodeWrapper node){
-        try {
-            JCRPublicationService.getInstance().publishByMainId(node.getIdentifier(),
-                    "default",
-                    "live",
-                    null,
-                    true,
-                    Collections.singletonList(""));
-        }catch (RepositoryException e){
-            LOGGER.error(e.getMessage());
-        }
-    }
-
-    private void publishUserChangesToLiveWorkspace(JCRUserNode node){
         try {
             JCRPublicationService.getInstance().publishByMainId(node.getIdentifier(),
                     "default",
