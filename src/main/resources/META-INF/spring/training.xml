@@ -17,4 +17,22 @@
         </property>
     </bean>
 
+
+    <bean parent="jobSchedulingBean">
+        <property name="jobDetail">
+            <bean class="org.springframework.scheduling.quartz.JobDetailBean">
+                <property name="name" value="RemoveDisabledUsers"/>
+                <property name="jobClass" value="jobs.RemoveDisabledUsers"/>
+                <property name="group" value="Maintenance"/>
+                <property name="description" value="Removes Disabled Users"/>
+            </bean>
+        </property>
+        <property name="trigger">
+            <bean class="org.quartz.CronTrigger">
+                <property name="name" value="DeleteDisabledUsersTrigger"/>
+                <property name="cronExpression" value="0 0/1 * * * ?"/>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

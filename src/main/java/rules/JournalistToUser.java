@@ -27,7 +27,7 @@ public class JournalistToUser {
             "surname", "address", "npa",
             "place", "phone", "cellphone",
             "email", "magazine", "languages",
-            "accredetationType", "accreditatedFor"};
+            "accredetationType", "accreditatedFor", "enabled"};
     private static final String NODENAME_PROPERTY = "j:nodename";
     private static final String PASSWORD_PROPERTY = "password";
     private static final String USER_REF_PROPERTY = "userRef";

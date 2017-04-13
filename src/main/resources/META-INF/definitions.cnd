@@ -41,9 +41,10 @@
  - password (string) mandatory
  - userRef (string) protected hidden
  - magazine (string) itemtype = metadata
- - languages (string, choicelist)mandatory multiple < 'German', 'French', 'Italian'
+ - languages (string, choicelist) mandatory multiple < 'German', 'French', 'Italian'
  - accredetationType (string, choicelist) mandatory < 'Principal', 'Accreditated', 'Public'
  - accreditatedFor (string)
+ - enabled (boolean) mandatory
 
 [trmx:training] > jmix:droppableContent mixin
 
