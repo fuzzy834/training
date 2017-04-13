@@ -73,6 +73,7 @@ public class JournalistToUser {
 
     private void updateUser(JCRUserNode user, JCRNodeWrapper node) throws RepositoryException {
         PropertyIterator propertyIterator = node.getProperties(USER_JOURNALIST_PROPS);
+        user.setPassword(node.getPropertyAsString(PASSWORD_PROPERTY));
         while (propertyIterator.hasNext()) {
             Property property = propertyIterator.nextProperty();
             if(property.isMultiple()){

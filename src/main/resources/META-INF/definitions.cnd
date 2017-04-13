@@ -28,7 +28,7 @@
 [jnt:judgeList] > jnt:content, jmix:structuredContent
 
 [trnt:journalist] > jnt:content, trmx:training
- - title (string, choicelist) = 'madame' mandatory < 'madame', 'monsieur'
+ - title (string, choicelist) mandatory < 'madame', 'monsieur'
  - academicTitle (string)
  - name (string) mandatory
  - surname (string) mandatory
@@ -41,8 +41,8 @@
  - password (string) mandatory
  - userRef (string) protected hidden
  - magazine (string) itemtype = metadata
- - languages (string, choicelist) = 'German' mandatory multiple < 'German', 'French', 'Italian'
- - accredetationType (string, choicelist) = 'Principal' mandatory < 'Principal', 'Accreditated', 'Public'
+ - languages (string, choicelist)mandatory multiple < 'German', 'French', 'Italian'
+ - accredetationType (string, choicelist) mandatory < 'Principal', 'Accreditated', 'Public'
  - accreditatedFor (string)
 
 [trmx:training] > jmix:droppableContent mixin
