@@ -7,13 +7,12 @@ import org.jahia.services.render.RenderContext;
 import org.jahia.services.render.Resource;
 import org.jahia.services.render.URLResolver;
 import org.slf4j.Logger;
+import util.Util;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.query.Query;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +27,8 @@ public class SwitchNamesAction extends Action {
     private static final String LAST_NAME_PROPERTY = "judgeLastName";
 
     private static final String CONTENT_FOLDER_TYPE = "jnt:contentFolder";
+
+    private Util util = Util.getInstance();
 
     @Override
     public ActionResult doExecute(final HttpServletRequest req,
@@ -68,19 +69,6 @@ public class SwitchNamesAction extends Action {
         });
     }
 
-    private void publishChangesToLiveWorkspace(JCRNodeWrapper node){
-        try {
-            JCRPublicationService.getInstance().publishByMainId(node.getIdentifier(),
-                    "default",
-                    "live",
-                    null,
-                    true,
-                    Collections.singletonList(""));
-        }catch (RepositoryException e){
-            LOGGER.error(e.getMessage());
-        }
-    }
-
     private void switchNameProperties(JCRNodeWrapper node, String propertyName1, String propertyName2){
         try {
             String propertyValue1 = node.getPropertyAsString(propertyName1);
@@ -97,7 +85,7 @@ public class SwitchNamesAction extends Action {
         try {
             switchNameProperties(node, propertyName1, propertyName2);
             node.getSession().save();
-            publishChangesToLiveWorkspace(node);
+            util.publishNode(node);
         }catch (RepositoryException e){
             LOGGER.error(e.getMessage());
         }

@@ -1,18 +1,19 @@
 package rules;
 
-import org.jahia.services.content.*;
+import org.jahia.services.content.JCRNodeWrapper;
+import org.jahia.services.content.JCRSessionWrapper;
 import org.jahia.services.content.decorator.JCRUserNode;
 import org.jahia.services.content.rules.AddedNodeFact;
 import org.jahia.services.content.rules.PublishedNodeFact;
 import org.jahia.services.usermanager.JahiaUserManagerService;
 import org.slf4j.Logger;
+import util.Util;
 
 import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
-import javax.jcr.query.Query;
-import java.util.*;
+import java.util.Properties;
 
 /**
  * Created by usersmile on 11.04.17.
@@ -21,7 +22,7 @@ public class JournalistToUser {
 
     private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(JournalistToUser.class);
     private JahiaUserManagerService userService = JahiaUserManagerService.getInstance();
-    private JCRPublicationService publicationService = JCRPublicationService.getInstance();
+    private Util util = Util.getInstance();
 
     private static final String[] USER_JOURNALIST_PROPS = {"title", "academicTitle", "name",
             "surname", "address", "npa",
@@ -32,8 +33,9 @@ public class JournalistToUser {
     private static final String PASSWORD_PROPERTY = "password";
     private static final String USER_REF_PROPERTY = "userRef";
     private static final String DELETION_DATE_PROPERTY = "j:deletionDate";
-    private static final String DEFAULT_WORKSPACE = "default";
-    private static final String LIVE_WORKSPACE = "live";
+    private static final String UUID_PROPERTY = "jcr:uuid";
+
+    private static final String USER_NODE_TYPE = "jnt:user";
 
 
     public void createUser(AddedNodeFact nodeFact) {
@@ -43,7 +45,7 @@ public class JournalistToUser {
             JCRUserNode user = createUserFromJournalist(node, session);
             node.setProperty(USER_REF_PROPERTY, user.getIdentifier());
             session.save();
-            publishUserAndJournalist(user, node);
+            util.publishNodes(user, node);
         } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
         }
@@ -53,14 +55,14 @@ public class JournalistToUser {
         try {
             JCRNodeWrapper node = nodeFact.getNode();
             JCRSessionWrapper session = node.getSession();
-            JCRUserNode user = getUserById(node, session);
+            JCRUserNode user = (JCRUserNode) util.findNode(session, USER_NODE_TYPE, UUID_PROPERTY, node.getPropertyAsString(USER_REF_PROPERTY)).next();
             if (null != node.getPropertyAsString(DELETION_DATE_PROPERTY)) {
                 deleteUser(user, session);
             } else {
                 updateUser(user, node);
             }
             session.save();
-            publishUserAndJournalist(user, node);
+            util.publishNode(user);
         } catch (RepositoryException e) {
             LOGGER.error(e.getMessage());
         }
@@ -111,28 +113,5 @@ public class JournalistToUser {
             return result.substring(0, result.length() - 2);
         }
         return "";
-    }
-
-    private void publishUserAndJournalist(JCRUserNode user, JCRNodeWrapper node) throws RepositoryException {
-        String[] uiids = {user.getIdentifier(), node.getIdentifier()};
-        publicationService.publish(Arrays.asList(uiids),
-                DEFAULT_WORKSPACE,
-                LIVE_WORKSPACE,
-                Collections.singletonList(""));
-    }
-
-    private JCRUserNode getUserById(JCRNodeWrapper node, JCRSessionWrapper session) throws RepositoryException {
-        QueryManagerWrapper queryManager = session.getWorkspace().getQueryManager();
-        JCRNodeIteratorWrapper nodeIterator = queryManager
-                .createQuery("SELECT * FROM [jnt:user]", Query.JCR_JQOM)
-                .execute()
-                .getNodes();
-        JCRNodeWrapper user = null;
-        for (JCRNodeWrapper userNode : nodeIterator) {
-            if (userNode.getIdentifier().equals(node.getPropertyAsString(USER_REF_PROPERTY))) {
-                user = userNode;
-            }
-        }
-        return (JCRUserNode) user;
     }
 }

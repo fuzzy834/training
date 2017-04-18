@@ -6,6 +6,7 @@ import org.jahia.services.content.rules.*
 import org.jahia.services.content.JCRContentUtils
 import org.jahia.services.usermanager.JahiaUserManagerService
 import rules.JournalistToUser
+import rules.SendNotificationsToUser
 import org.slf4j.Logger
 
 expander rules.dsl
@@ -16,6 +17,7 @@ global Service service
 global Logger logger
 global JCRContentUtils jcrUtils
 global JournalistToUser journalistToUser
+global SendNotificationsToUser sendNotificationsToUser
 
 
 
@@ -25,6 +27,7 @@ rule "Create User"
             - it has the type trnt:journalist
     then
         Create journalist user with data from node
+        Send notification to user email when created node
 end
 
 rule "Publish Modified Node"
@@ -32,5 +35,6 @@ rule "Publish Modified Node"
         A node is published
             - it has the type trnt:journalist
     then
+        Send notification to user email when updated node
         Update user journalist from node
 end

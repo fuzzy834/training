@@ -48,3 +48,5 @@
 
 [trmx:training] > jmix:droppableContent mixin
 
+[trnt:modifyUser] > jnt:content, trmx:training
+

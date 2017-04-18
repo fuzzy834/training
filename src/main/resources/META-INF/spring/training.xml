@@ -7,16 +7,27 @@
         <property name="name" value="switch"/>
     </bean>
 
+    <bean class="actions.EditUserSendAction">
+        <property name="name" value="send"/>
+    </bean>
+
     <bean class="org.jahia.services.content.rules.ModuleGlobalObject">
         <property name="globalRulesObject">
             <map>
                 <entry key="journalistToUser">
                     <bean class="rules.JournalistToUser"/>
                 </entry>
+                <entry key="sendNotificationsToUser">
+                    <bean class="rules.SendNotificationsToUser">
+                        <property name="mailService" ref="MailService"/>
+                        <property name="createdPath" value="/META-INF/mails/templates/created.vm"/>
+                        <property name="updatedPath" value="/META-INF/mails/templates/updated.vm"/>
+                        <property name="deletedPath" value="/META-INF/mails/templates/deleted.vm"/>
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>
-
 
     <bean parent="jobSchedulingBean">
         <property name="jobDetail">

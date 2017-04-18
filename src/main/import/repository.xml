@@ -16,6 +16,11 @@
                      jcr:primaryType="jnt:folder">
                             <resources jcr:mixinTypes="jmix:hasExternalProviderExtension jmix:sourceControl"
                              jcr:primaryType="jnt:folder">
+                                <trnt_modifyUser jcr:mixinTypes="jmix:hasExternalProviderExtension jmix:sourceControl"
+                                      jcr:primaryType="jnt:nodeTypeFolder">
+                                    <html jcr:mixinTypes="jmix:hasExternalProviderExtension jmix:sourceControl"
+                              jcr:primaryType="jnt:templateTypeFolder"/>
+                                </trnt_modifyUser>
                                 <jnt_judgeList jcr:mixinTypes="jmix:hasExternalProviderExtension"
                                     jcr:primaryType="jnt:nodeTypeFolder">
                                     <html jcr:mixinTypes="jmix:hasExternalProviderExtension"
