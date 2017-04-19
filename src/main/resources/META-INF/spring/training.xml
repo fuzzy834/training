@@ -20,9 +20,7 @@
                 <entry key="sendNotificationsToUser">
                     <bean class="rules.SendNotificationsToUser">
                         <property name="mailService" ref="MailService"/>
-                        <property name="createdPath" value="/META-INF/mails/templates/created.vm"/>
-                        <property name="updatedPath" value="/META-INF/mails/templates/updated.vm"/>
-                        <property name="deletedPath" value="/META-INF/mails/templates/deleted.vm"/>
+                        <property name="updatedPath" value="mails/templates/updated.vm"/>
                     </bean>
                 </entry>
             </map>
@@ -45,5 +43,4 @@
             </bean>
         </property>
     </bean>
-
 </beans>

@@ -12,7 +12,6 @@ import util.Util;
 import javax.jcr.RepositoryException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -41,23 +40,48 @@ public class EditUserSendAction extends Action {
             public Object doInJCR(JCRSessionWrapper session) throws RepositoryException {
                 JCRNodeWrapper user = resource.getNode();
                 JCRNodeWrapper journalist = (JCRNodeWrapper) util.findNode(session, JOURNALIST_NODE_TYPE, NODENAME_PROPERTY, user.getPropertyAsString(NODENAME_PROPERTY)).next();
-                StringBuffer languages = new StringBuffer();
-                for (Map.Entry<String, List<String>> pair : parameters.entrySet()){
-                    if (LAGUAGES.contains(pair.getKey())){
-                        languages.append(pair.getValue().get(0));
-                        languages.append(" ");
-                    }
-                    if (journalist.hasProperty(pair.getKey())){
-                        journalist.setProperty(pair.getKey(), pair.getValue().get(0));
-                    }
-                }
-                journalist.setProperty(LANGUAGE_PROPERTY, languages.toString().trim().split(" "));
-                journalist.getSession().save();
-                JCRPublicationService.getInstance().publishByMainId(journalist.getIdentifier(), Constants.EDIT_WORKSPACE, Constants.LIVE_WORKSPACE, null, true, Collections.singletonList(""));
 
+                if(validate(parameters, journalist)) {
+                    //set password
+                    if (!parameters.get("newPassword").get(0).isEmpty()
+                            && !parameters.get("confirmNewPassword").get(0).isEmpty()){
+                            journalist.setProperty("password", parameters.get("newPassword").get(0));
+                    }
+                    //set other props
+                    StringBuilder languages = new StringBuilder();
+                    for (Map.Entry<String, List<String>> pair : parameters.entrySet()) {
+                        //acquiring new language set
+                        if (LAGUAGES.contains(pair.getKey())) {
+                            languages.append(pair.getValue().get(0));
+                            languages.append(" ");
+                        }
+                        //setting other available props
+                        if (journalist.hasProperty(pair.getKey())) {
+                            journalist.setProperty(pair.getKey(), pair.getValue().get(0));
+                        }
+                    }
+                    //setting languages
+                    journalist.setProperty(LANGUAGE_PROPERTY, languages.toString().trim().split(" "));
+
+                    //saving and publishing changes
+                    journalist.getSession().save();
+                    JCRPublicationService.getInstance().publishByMainId(journalist.getIdentifier(), Constants.EDIT_WORKSPACE, Constants.LIVE_WORKSPACE, null, true, Collections.singletonList(""));
+                }
 
                 return new ActionResult(HttpServletResponse.SC_OK);
             }
         });
+    }
+
+    private boolean validate(Map<String, List<String>> parameters, JCRNodeWrapper node){
+        boolean zip = parameters.get("npa").get(0).matches("^[0-9]{5}$");
+        boolean email = parameters.get("email").get(0)
+                .matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
+        boolean password = parameters.get("newPassword").get(0)
+                .equals(parameters.get("confirmNewPassword").get(0))
+                && !parameters.get("newPassword").get(0)
+                .equals(node.getPropertyAsString("password"));
+
+        return email && zip && password;
     }
 }

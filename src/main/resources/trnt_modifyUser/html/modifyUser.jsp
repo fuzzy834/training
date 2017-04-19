@@ -10,6 +10,7 @@
 <%@ taglib prefix="query" uri="http://www.jahia.org/tags/queryLib" %>
 <%@ taglib prefix="utility" uri="http://www.jahia.org/tags/utilityLib" %>
 <%@ taglib prefix="s" uri="http://www.jahia.org/tags/search" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%--@elvariable id="currentNode" type="org.jahia.services.content.JCRNodeWrapper"--%>
 <%--@elvariable id="out" type="java.io.PrintWriter"--%>
 <%--@elvariable id="script" type="org.jahia.services.render.scripting.Script"--%>
@@ -44,7 +45,6 @@
 <c:set var="phone" value="${user.properties['phone'].string}"/>
 <c:set var="cellphone" value="${user.properties['cellphone'].string}"/>
 <c:set var="email" value="${user.properties['email'].string}"/>
-
 <h1>My accreditation profile</h1>
 <div class="mod modForm" id="editForm">
     <form action="/"
@@ -129,6 +129,16 @@
                 <div class="label"><label for="email">Email&nbsp;*</label></div>
                 <div class="fields"><input type="text" class="text" name="email" id="email" size="20"
                                            value="${email}"/></div>
+            </li>
+
+            <li class="row">
+                <div class="label"><label for="newPassword">New password</label></div>
+                <div class="fields"><input type="password" class="text" name="newPassword" id="newPassword" size="20"/></div>
+            </li>
+
+            <li class="row">
+                <div class="label"><label for="confirmNewPassword">Confirm new password</label></div>
+                <div class="fields"><input type="password" class="text" name="confirmNewPassword" id="confirmNewPassword" size="20"/></div>
             </li>
         </ol>
         <div class="buttonbar">

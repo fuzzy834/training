@@ -27,7 +27,6 @@ rule "Create User"
             - it has the type trnt:journalist
     then
         Create journalist user with data from node
-        Send notification to user email when created node
 end
 
 rule "Publish Modified Node"
@@ -35,6 +34,6 @@ rule "Publish Modified Node"
         A node is published
             - it has the type trnt:journalist
     then
-        Send notification to user email when updated node
         Update user journalist from node
+        Send notification to user email when updated node
 end

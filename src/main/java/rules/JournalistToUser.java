@@ -1,13 +1,10 @@
 package rules;
 
-import org.jahia.api.Constants;
-import org.jahia.services.content.rules.Service;
 import org.jahia.services.content.JCRNodeWrapper;
 import org.jahia.services.content.JCRSessionWrapper;
 import org.jahia.services.content.decorator.JCRUserNode;
 import org.jahia.services.content.rules.AddedNodeFact;
 import org.jahia.services.content.rules.PublishedNodeFact;
-import org.jahia.services.usermanager.JahiaGroupManagerService;
 import org.jahia.services.usermanager.JahiaUserManagerService;
 import org.slf4j.Logger;
 import util.Util;
