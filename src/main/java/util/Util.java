@@ -1,5 +1,6 @@
 package util;
 
+import org.jahia.api.Constants;
 import org.jahia.services.content.JCRNodeIteratorWrapper;
 import org.jahia.services.content.JCRNodeWrapper;
 import org.jahia.services.content.JCRPublicationService;
@@ -7,9 +8,7 @@ import org.jahia.services.content.JCRSessionWrapper;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.query.Query;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by usersmile on 18.04.17.
@@ -17,8 +16,6 @@ import java.util.List;
 public class Util {
 
     private static JCRPublicationService publicationService = JCRPublicationService.getInstance();
-    private static final String DEFAULT_WORKSPACE = "default";
-    private static final String LIVE_WORKSPACE = "live";
 
     private Util() {
     }
@@ -34,13 +31,12 @@ public class Util {
 
     public void publishNode(JCRNodeWrapper node) throws RepositoryException{
         publicationService.publish(Collections.singletonList(node.getIdentifier()),
-                DEFAULT_WORKSPACE,
-                LIVE_WORKSPACE,
+                Constants.EDIT_WORKSPACE,
+                Constants.LIVE_WORKSPACE,
                 Collections.singletonList(""));
     }
 
     public void publishNodes(JCRNodeWrapper...nodes) throws RepositoryException{
-        List<String> uuids = new ArrayList<>();
         for (JCRNodeWrapper node : nodes) {
             publishNode(node);
         }
@@ -54,7 +50,8 @@ public class Util {
                 .getWorkspace()
                 .getQueryManager()
                 .createQuery(
-                        String.format("SELECT * FROM [%s] WHERE [%s]='%s'", nodeType, selector, identifier),
+                        String.format("SELECT * FROM [%s] WHERE [%s]='%s'",
+                                nodeType, selector, identifier),
                         Query.JCR_JQOM)
                 .execute()
                 .getNodes();
@@ -68,7 +65,8 @@ public class Util {
                 .getWorkspace()
                 .getQueryManager()
                 .createQuery(
-                        String.format("SELECT * FROM [%s] WHERE [%s]=%s", nodeType, selector, identifier),
+                        String.format("SELECT * FROM [%s] WHERE [%s]=%s",
+                                nodeType, selector, identifier),
                         Query.JCR_JQOM)
                 .execute()
                 .getNodes();

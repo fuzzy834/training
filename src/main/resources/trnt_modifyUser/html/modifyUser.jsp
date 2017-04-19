@@ -47,8 +47,8 @@
 
 <h1>My accreditation profile</h1>
 <div class="mod modForm" id="editForm">
-    <form action="<c:url value='${url.base}${user.path}'/>.send.do"
-          method="post" name="frmFormular">
+    <form action="/"
+          method="post" name="frmFormular" id="userForm">
         <ol>
             <li class="row">
                 <div class="label"><label for="magazine">Newspapers concerned</label></div>
@@ -60,13 +60,13 @@
                 <div class="fields">
                     <label for="french">French</label>
                     <input id="french" name="french" type="checkbox" value="French"
-                           <c:if test="${fn:contains(language, 'French')}">checked</c:if> onclick="return false;"/><br>
+                           <c:if test="${fn:contains(language, 'French')}">checked</c:if>/><br>
                     <label for="german">German</label>
                     <input id="german" name="german" type="checkbox" value="German"
-                           <c:if test="${fn:contains(language, 'German')}">checked</c:if> onclick="return false;"/><br>
+                           <c:if test="${fn:contains(language, 'German')}">checked</c:if>/><br>
                     <label for="italian">Italian</label>
                     <input id="italian" name="italian" type="checkbox" value="Italian"
-                           <c:if test="${fn:contains(language, 'Italian')}">checked</c:if> onclick="return false;"/><br>
+                           <c:if test="${fn:contains(language, 'Italian')}">checked</c:if>/><br>
                 </div>
             </li>
             <h1>My contact information</h1>
@@ -136,3 +136,14 @@
         </div>
     </form>
 </div>
+
+<script>
+    var url = "<c:url value='${url.base}${user.path}'/>.send.do";
+    $('#userForm').submit(function (event) {
+        event.preventDefault();
+        var posting = $.post(url, $('#userForm').serialize());
+        posting.done(function (data) {
+            location.reload();
+        });
+    });
+</script>

@@ -4,7 +4,6 @@ import org.jahia.services.content.*;
 import org.jahia.services.content.rules.AddedNodeFact;
 import org.jahia.services.content.rules.PublishedNodeFact;
 import org.jahia.services.mail.MailService;
-import org.slf4j.Logger;
 
 import javax.jcr.RepositoryException;
 import javax.script.ScriptException;

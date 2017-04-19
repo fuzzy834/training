@@ -1,10 +1,13 @@
 package rules;
 
+import org.jahia.api.Constants;
+import org.jahia.services.content.rules.Service;
 import org.jahia.services.content.JCRNodeWrapper;
 import org.jahia.services.content.JCRSessionWrapper;
 import org.jahia.services.content.decorator.JCRUserNode;
 import org.jahia.services.content.rules.AddedNodeFact;
 import org.jahia.services.content.rules.PublishedNodeFact;
+import org.jahia.services.usermanager.JahiaGroupManagerService;
 import org.jahia.services.usermanager.JahiaUserManagerService;
 import org.slf4j.Logger;
 import util.Util;
@@ -13,7 +16,7 @@ import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by usersmile on 11.04.17.
@@ -34,8 +37,8 @@ public class JournalistToUser {
     private static final String USER_REF_PROPERTY = "userRef";
     private static final String DELETION_DATE_PROPERTY = "j:deletionDate";
     private static final String UUID_PROPERTY = "jcr:uuid";
-
     private static final String USER_NODE_TYPE = "jnt:user";
+    private static final String OWNER_ROLE = "owner";
 
 
     public void createUser(AddedNodeFact nodeFact) {
@@ -43,6 +46,7 @@ public class JournalistToUser {
             JCRNodeWrapper node = nodeFact.getNode();
             JCRSessionWrapper session = node.getSession();
             JCRUserNode user = createUserFromJournalist(node, session);
+            node.grantRoles("u:"+user.getName(), Collections.singleton(OWNER_ROLE));
             node.setProperty(USER_REF_PROPERTY, user.getIdentifier());
             session.save();
             util.publishNodes(user, node);
