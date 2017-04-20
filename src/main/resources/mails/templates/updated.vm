@@ -1,3 +1,5 @@
+#* @vtlvariable name="user" type="org.jahia.services.content.decorator.JCRUserNode" *#
+
 <html>
     <body>
         <h3>Contact Information: </h3>

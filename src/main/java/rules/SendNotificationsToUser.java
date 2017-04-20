@@ -7,6 +7,7 @@ import org.jahia.services.mail.MailService;
 import javax.jcr.RepositoryException;
 import javax.script.ScriptException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -32,7 +33,7 @@ public class SendNotificationsToUser {
     private void sendEmail(String email, String status, JCRNodeWrapper node) throws ScriptException, RepositoryException{
         Map<String, Object> bindings = new HashMap<>();
         bindings.put("user", node);
-        mailService.sendMessageWithTemplate(status, bindings, email, mailService.defaultSender(), null, null, node.getSession().getLocale(), "templates");
+        mailService.sendMessageWithTemplate(status, bindings, email, mailService.defaultSender(), null, null, new Locale("en"), "Training");
     }
 
     public void setMailService(MailService mailService) {
