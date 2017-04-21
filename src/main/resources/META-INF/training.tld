@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <description>Set of util functions</description>
+    <display-name>functions</display-name>
+    <tlib-version>1.0-SNAPSHOT</tlib-version>
+    <short-name>func</short-name>
+    <uri>http://jahia-training.lxc/functions</uri>
+
+    <tag>
+        <description>Retrieve the social connections for the specified user node.</description>
+        <name>setProp</name>
+        <tag-class>tags.JSPNodePropertiesHelper</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>nodeId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>propName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>multiValued</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>propValue</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <function>
+        <name>getUserProp</name>
+        <function-class>tags.JSPNodePropertiesHelper</function-class>
+        <function-signature>
+            java.lang.String getJahiaUserProperty(org.jahia.services.usermanager.JahiaUser, java.lang.String)
+        </function-signature>
+    </function>
+</taglib>

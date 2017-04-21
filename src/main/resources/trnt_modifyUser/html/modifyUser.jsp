@@ -11,6 +11,7 @@
 <%@ taglib prefix="utility" uri="http://www.jahia.org/tags/utilityLib" %>
 <%@ taglib prefix="s" uri="http://www.jahia.org/tags/search" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="func" uri="http://jahia-training.lxc/functions" %>
 <%--@elvariable id="currentNode" type="org.jahia.services.content.JCRNodeWrapper"--%>
 <%--@elvariable id="out" type="java.io.PrintWriter"--%>
 <%--@elvariable id="script" type="org.jahia.services.render.scripting.Script"--%>
@@ -20,34 +21,36 @@
 <%--@elvariable id="currentResource" type="org.jahia.services.render.Resource"--%>
 <%--@elvariable id="url" type="org.jahia.services.render.URLGenerator"--%>
 
-<template:addResources type="javascript" resources="jquery.min.js"/>
-
 <c:set var="userName" value="<%=JCRSessionFactory.getInstance().getCurrentUser().getName()%>"/>
+<c:set var="jahiaUser" value="<%=JCRSessionFactory.getInstance().getCurrentUser()%>"/>
+
 <jcr:jqom var="journalist">
-    <query:selector nodeTypeName="jnt:user"/>
+    <query:selector nodeTypeName="trnt:journalist"/>
     <query:equalTo propertyName="j:nodename" value="${userName}"/>
 </jcr:jqom>
 
-<c:set var="users" value="${journalist.nodes}"/>
-<c:forEach items="${users}" var="u">
-    <c:set var="user" value="${u}"/>
+<c:set var="journalists" value="${journalist.nodes}"/>
+<c:forEach items="${journalists}" var="j">
+    <c:set var="journalistNode" value="${j}"/>
 </c:forEach>
 
-<c:set var="magazine" value="${user.properties['magazine'].string}"/>
-<c:set var="language" value="${user.properties['languages'].string}"/>
-<c:set var="gender" value="${user.properties['title'].string}"/>
-<c:set var="academicTitle" value="${user.properties['academicTitle'].string}"/>
-<c:set var="name" value="${user.properties['name'].string}"/>
-<c:set var="surname" value="${user.properties['surname'].string}"/>
-<c:set var="address" value="${user.properties['address'].string}"/>
-<c:set var="zipcode" value="${user.properties['npa'].string}"/>
-<c:set var="city" value="${user.properties['place'].string}"/>
-<c:set var="phone" value="${user.properties['phone'].string}"/>
-<c:set var="cellphone" value="${user.properties['cellphone'].string}"/>
-<c:set var="email" value="${user.properties['email'].string}"/>
+<c:set var="magazine" value="${func:getUserProp(jahiaUser, 'magazine')}"/>
+<c:set var="language" value="${func:getUserProp(jahiaUser, 'languages')}"/>
+<c:set var="gender" value="${func:getUserProp(jahiaUser, 'title')}"/>
+<c:set var="academicTitle" value="${func:getUserProp(jahiaUser, 'academicTitle')}"/>
+<c:set var="name" value="${func:getUserProp(jahiaUser, 'name')}"/>
+<c:set var="surname" value="${func:getUserProp(jahiaUser, 'surname')}"/>
+<c:set var="address" value="${func:getUserProp(jahiaUser, 'address')}"/>
+<c:set var="zipcode" value="${func:getUserProp(jahiaUser, 'npa')}"/>
+<c:set var="city" value="${func:getUserProp(jahiaUser, 'place')}"/>
+<c:set var="phone" value="${func:getUserProp(jahiaUser, 'phone')}"/>
+<c:set var="cellphone" value="${func:getUserProp(jahiaUser, 'cellphone')}"/>
+<c:set var="email" value="${func:getUserProp(jahiaUser, 'email')}"/>
+<c:set var="password" value="${journalistNode.properties['password'].string}"/>
+
 <h1>My accreditation profile</h1>
 <div class="mod modForm" id="editForm">
-    <form action="/"
+    <form action="<c:url value='${url.base}${journalistNode.path}'/>.send.do"
           method="post" name="frmFormular" id="userForm">
         <ol>
             <li class="row">
@@ -132,6 +135,11 @@
             </li>
 
             <li class="row">
+                <div class="label"><label for="currentPassword">Current password</label></div>
+                <div class="fields"><input type="password" class="text" name="currentPassword" id="currentPassword" size="20" value="${password}" readonly/></div>
+            </li>
+
+            <li class="row">
                 <div class="label"><label for="newPassword">New password</label></div>
                 <div class="fields"><input type="password" class="text" name="newPassword" id="newPassword" size="20"/></div>
             </li>
@@ -142,18 +150,11 @@
             </li>
         </ol>
         <div class="buttonbar">
-            <button id="submit" type="submit">Submit</button>
+            <input id="submit" name="submit" type="submit" value="Submit"/>
         </div>
     </form>
 </div>
 
 <script>
-    var url = "<c:url value='${url.base}${user.path}'/>.send.do";
-    $('#userForm').submit(function (event) {
-        event.preventDefault();
-        var posting = $.post(url, $('#userForm').serialize());
-        posting.done(function (data) {
-            location.reload();
-        });
-    });
+    $(editUserFormValidator);
 </script>

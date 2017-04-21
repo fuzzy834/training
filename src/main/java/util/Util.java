@@ -1,11 +1,7 @@
 package util;
 
 import org.jahia.api.Constants;
-import org.jahia.services.content.JCRNodeIteratorWrapper;
-import org.jahia.services.content.JCRNodeWrapper;
-import org.jahia.services.content.JCRPublicationService;
-import org.jahia.services.content.JCRSessionWrapper;
-
+import org.jahia.services.content.*;
 import javax.jcr.RepositoryException;
 import javax.jcr.query.Query;
 import java.util.Collections;

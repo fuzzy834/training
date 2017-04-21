@@ -41,7 +41,6 @@ public class EditUserSendAction extends Action {
                 JCRNodeWrapper user = resource.getNode();
                 JCRNodeWrapper journalist = (JCRNodeWrapper) util.findNode(session, JOURNALIST_NODE_TYPE, NODENAME_PROPERTY, user.getPropertyAsString(NODENAME_PROPERTY)).next();
 
-                if(validate(parameters, journalist)) {
                     //set password
                     if (!parameters.get("newPassword").get(0).isEmpty()
                             && !parameters.get("confirmNewPassword").get(0).isEmpty()){
@@ -66,22 +65,9 @@ public class EditUserSendAction extends Action {
                     //saving and publishing changes
                     journalist.getSession().save();
                     JCRPublicationService.getInstance().publishByMainId(journalist.getIdentifier(), Constants.EDIT_WORKSPACE, Constants.LIVE_WORKSPACE, null, true, Collections.singletonList(""));
-                }
 
                 return new ActionResult(HttpServletResponse.SC_OK);
             }
         });
-    }
-
-    private boolean validate(Map<String, List<String>> parameters, JCRNodeWrapper node){
-        boolean zip = parameters.get("npa").get(0).matches("^[0-9]{5}$");
-        boolean email = parameters.get("email").get(0)
-                .matches("^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$");
-        boolean password = parameters.get("newPassword").get(0)
-                .equals(parameters.get("confirmNewPassword").get(0))
-                && !parameters.get("newPassword").get(0)
-                .equals(node.getPropertyAsString("password"));
-
-        return email && zip && password;
     }
 }
